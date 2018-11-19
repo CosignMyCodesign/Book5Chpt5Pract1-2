@@ -47,19 +47,32 @@ export default class ApplicationViews extends Component {
       })
     )
   }
-// Method to delete an owner
-deleteOwner = id => {
-  return fetch(`http://localhost:5002/owners/${id}`, {
-      method: "DELETE"
-  })
-  .then(e => e.json())
-  .then(() => fetch(`http://localhost:5002/owners`))
-  .then(e => e.json())
-  .then(owners => this.setState({
-      animals: owners
-  })
-)
-}
+// Method to remove an owner
+      removeOwner = id => {
+        return fetch(`http://localhost:5002/owners/${id}`, {
+            method: "DELETE"
+        })
+        .then(e => e.json())
+        .then(() => fetch(`http://localhost:5002/owners`))
+        .then(e => e.json())
+        .then(owners => this.setState({
+            animals: owners
+        })
+      )
+      }
+// Method to fire an employee
+      fireEmployee = id => {
+        return fetch(`http://localhost:5002/employees/${id}`, {
+            method: "DELETE"
+        })
+        .then(e => e.json())
+        .then(() => fetch(`http://localhost:5002/employees`))
+        .then(e => e.json())
+        .then(employees => this.setState({
+            animals: employees
+        })
+      )
+      }
 // Once the data is fetched we need to render that data
     render() {
         return (
@@ -73,12 +86,14 @@ deleteOwner = id => {
                      deleteAnimal={this.deleteAnimal} />
                 }} />
                 <Route path="/employees" render={(props) => {
-                    return <EmployeeList employees={this.state.employees} />
+                    return <EmployeeList 
+                    employees={this.state.employees}
+                    fireEmployee={this.state.fireEmployee} />
                 }} />
                 <Route path="/owners" render={(props) => {
                     return <OwnerList 
                     owners={this.state.owners}
-                    deleteOwner={this.deleteOwner} />
+                    removeOwner={this.removeOwner} />
                 }} />
             </React.Fragment>
         )
